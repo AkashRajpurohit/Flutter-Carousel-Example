@@ -16,11 +16,11 @@ class _HomePageState extends State<HomePage> {
   ];
 
   void _prevImage() {
-    setState(() => photoIndex = photoIndex > 0 ? photoIndex - 1 : 0);
+    setState(() => photoIndex = photoIndex > 0 ? photoIndex - 1 : photos.length - 1);
   }
 
   void _nextImage() {
-    setState(() => photoIndex = photoIndex < photos.length - 1 ? photoIndex + 1 : photoIndex);
+    setState(() => photoIndex = photoIndex < photos.length - 1 ? photoIndex + 1 : 0);
   }
 
   @override
