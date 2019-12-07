@@ -47,7 +47,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                   width: 300.0,
                   height: 400.0,
-                )
+                ),
+                Positioned(
+                  top: 375,
+                  left: 25.0,
+                  right: 25.0,
+                  child: SelectedPhoto(numberOfDots: photos.length, photoIndex: photoIndex),
+                ),
               ],
             ),
           ),
@@ -71,6 +77,68 @@ class _HomePageState extends State<HomePage> {
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class SelectedPhoto extends StatelessWidget {
+
+  final int numberOfDots;
+  final int photoIndex;
+
+  SelectedPhoto({ this.numberOfDots, this.photoIndex });
+
+  Widget _inactivePhoto() {
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Container(
+          height: 8.0,
+          width: 8.0,
+          decoration: BoxDecoration(
+            color: Colors.grey,
+            borderRadius: BorderRadius.circular(4.0)
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _activePhoto() {
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.only(left: 5.0, right: 5.0),
+        child: Container(
+          height: 12.0,
+          width: 12.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(6.0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildDots() {
+    List<Widget> dots = [];
+
+    for(int i = 0; i < numberOfDots; i++) {
+      dots.add(
+        i == photoIndex ? _activePhoto() : _inactivePhoto()
+      );
+    }
+
+    return dots;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: _buildDots()
       ),
     );
   }
