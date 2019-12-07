@@ -5,7 +5,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
+  Animation carouselAnimation;
 
   int photoIndex = 0;
   List<String> photos = [
@@ -21,6 +23,34 @@ class _HomePageState extends State<HomePage> {
 
   void _nextImage() {
     setState(() => photoIndex = photoIndex < photos.length - 1 ? photoIndex + 1 : 0);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = new AnimationController(
+      duration: Duration(seconds: 15),
+      vsync: this
+    );
+
+    carouselAnimation = IntTween(
+      begin: 0,
+      end: photos.length - 1
+    )
+    .animate(_animationController)
+    ..addListener(() {
+      setState(() {
+        photoIndex = carouselAnimation.value;
+      });
+    });
+
+    _animationController.repeat();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
   }
 
   @override
